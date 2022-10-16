@@ -1,0 +1,31 @@
+server:
+  port: 8080
+jwt:
+  secret: 5U2JxRTW49$^)PjV7C*5bsfNqPIIy7Rd5+4E2qgbYN%8qjy#zN
+api:
+  authenticator: http://localhost:8082
+  users: http://localhost:8081
+  game: http://localhost:8084
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authenticator-service
+          uri: ${api.authenticator}
+          predicates:
+            - Path=/api/authenticator/**
+          filters:
+            - RewritePath=/api/authenticator/?(?<segment>.*), /$\{segment}
+        - id: users-service
+          uri: ${api.users}
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/users/?(?<segment>.*), /users/$\{segment}
+            - JwtHeaderAuthenticationFilter
+        - id: game-service
+          uri: ${api.game}
+          predicates:
+            - Path=/ws/**
+          filters:
+            - JwtQueryParameterAuthenticationFilter
