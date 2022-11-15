@@ -52,7 +52,7 @@ function login() {
     const login = $('#inputLogin').val();
     const password = $('#inputPassword').val();
     console.log(login)
-    axios.post('/api/authenticator/token', {
+    axios.post('/api/v1/authenticator/token', {
         login,
         password
     }).then(function (response) {
@@ -79,6 +79,6 @@ function connect() {
 function playersListChanged(players) {
     const playersNames = players
         .filter(player => player.voteStatus === 'IN_PROGRESS')
-        .map(player => `<li>${player.name}</li>`);
+        .map(player => `<li>${player.firstName} ${player.lastName}</li>`);
     $('#playersList').html(playersNames);
 }

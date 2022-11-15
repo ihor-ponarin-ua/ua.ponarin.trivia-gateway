@@ -13,15 +13,15 @@ spring:
         - id: authenticator-service
           uri: ${api.authenticator}
           predicates:
-            - Path=/api/authenticator/**
+            - Path=/api/*/authenticator/**
           filters:
-            - RewritePath=/api/authenticator/?(?<segment>.*), /$\{segment}
+            - RewritePath=/api/?(?<version>.*)/authenticator/?(?<segment>.*), /$\{version}/authenticator/$\{segment}
         - id: users-service
           uri: ${api.users}
           predicates:
-            - Path=/api/users/**
+            - Path=/api/*/users/**
           filters:
-            - RewritePath=/api/users/?(?<segment>.*), /users/$\{segment}
+            - RewritePath=/api/?(?<version>.*)/users/?(?<segment>.*), /$\{version}/users/$\{segment}
             - JwtHeaderAuthenticationFilter
         - id: game-service
           uri: ${api.game}
